@@ -17,14 +17,13 @@ public class MatrixTest {
     });
     @Test
     public void asArray() {
-        assertArrayEquals(
-                new double[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}},
-                matrix1.asArray()
-                //matrix2.asArray()
 
+            assertArrayEquals(
+                    new double[][]{{1, 2, 3}, {5, 6, 7}, {9, 10, 11}},
+                    matrix1.asArray()
+            );
+        }
 
-        );
-    }
 
     @Test
     public void get() {
@@ -78,60 +77,87 @@ public class MatrixTest {
         assertEquals(3, matrix1.asArray().length);
         //fail("To nie dziala");
     }
-    @Test
-    public void reshape2()
-    {
-        assertEquals(3,matrix2.asArray().length);
-        matrix2.asArray();
-        matrix2.reshape(3,3);
-        assertEquals(3,matrix2.asArray().length);
-        //fail("To nie dziala");
-    }
+
 
     @Test
     public void shape() {
-        assertArrayEquals(new int[]{1, 1}, new Matrix(1, 1).shape());
-        //assertArrayEquals(new int[]{2, 2}, matrix1.shape());
-        //assertArrayEquals(new int[]{2,3}, matrix1.shape());
-        //assertArrayEquals(new int[]{1,3}, matrix1.shape());
-        //assertArrayEquals(new int[]{2,2}, matrix1.shape());
+        Matrix A=new Matrix(1,1);
+
+        assertArrayEquals(new int[]{1, 1}, A.shape());
+        assertArrayEquals(new int[]{3,3}, matrix1.shape());
+        assertArrayEquals(new int[]{3,3}, matrix2.shape());
 
     }
 
     @Test
     public void add() {
-        /*assertArrayEquals(
-
-                matrix1.add(matrix2).asArray(),
-                matrix2.add(matrix1).asArray()
-        );*/
+        Matrix A=new Matrix(new double[][]{{5,5,5}, {5,5,5}, {5,5,5}});
+        Matrix B=new Matrix(new double[][]{{5,5,5}, {5,5,5}, {5,5,5}});
+        A.add(B);
         assertArrayEquals(
-                new double[][]{{5,5,5}, {5,5,5}, {5,5,5}},
-                matrix1.add(matrix2).asArray()
+                new double[][]{{10,10,10}, {10,10,10}, {10,10,10}},
+                A.matrix
         );
 
     }
 
     @Test
     public void sub() {
+        Matrix A=new Matrix(new double[][]{
+                {1, 2, 3},
+                {5, 6, 7},
+                {9, 10, 11},
+        });
+        A.sub(matrix1);
+
         assertArrayEquals(
-                new double[][]{{2,1},{2,2}},
-                matrix1.asArray()
+
+                new double[][]{{0,0,0},{0,0,0},{0,0,0}},
+                A.asArray()
                 //matrix1.sub(matrix2).asArray()
         );
-        assertArrayEquals(
+        /*assertArrayEquals(
                 new double[][]{{1,1}, {1,1}},
                 matrix1.asArray()
                 //matrix2.sub(matrix1).asArray()
-        );
+        );*/
     }
 
     @Test
     public void mul() {
+        Matrix A=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+        });
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+        });
+        //A.mul(B);
+        assertArrayEquals(
+          new double [][]{{3,3,3},{3,3,3},{3,3,3}},
+          A.mul(B).asArray()
+
+        );
+
+
     }
 
     @Test
     public void transposition() {
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+
+        });
+        B.transposition();
+        assertArrayEquals(
+                new double[][]{{1,1},{1,1},{1,1}},
+                B.asArray()
+
+        );
 
 
 
@@ -141,25 +167,123 @@ public class MatrixTest {
 
     @Test
     public void testSub() {
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+
+        });
+        assertArrayEquals(
+               new double[][]{{0,0,0},{0,0,0}},
+                (B.sub(1)).asArray()
+        );
+
     }
 
     @Test
     public void testAdd() {
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+
+        });
+        assertArrayEquals(
+                new double[][]{{2,2,2},{2,2,2}},
+                B.add(1).asArray()
+        );
     }
 
     @Test
     public void testMul() {
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+
+        });
+        assertArrayEquals(
+                new double[][]{{2,2,2},{2,2,2}},
+                B.mul(2).asArray()
+        );
     }
 
     @Test
     public void div() {
+        Matrix B=new Matrix(new double[][]{
+                {4, 4, 4},
+                {4, 4, 4},
+
+        });
+        assertArrayEquals(
+                new double[][]{{2,2,2},{2,2,2}},
+                B.div(2).asArray()
+        );
     }
 
     @Test
     public void dot() {
+        Matrix A=new Matrix(new double[][]{
+                {4, 4},
+                {4, 4},
+                {4, 4},
+
+        });
+        Matrix B=new Matrix(new double[][]{
+                {4, 4, 4},
+                {4, 4, 4},
+
+        });
+        assertArrayEquals(
+                new double[][]{{32,32},{32,32},{32,32}},
+                A.dot(B).asArray()
+        );
     }
 
     @Test
     public void frobenius() {
+        Matrix B=new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+
+        });
+        assertEquals(
+                6.0,
+                B.frobenius(),
+                0.0
+        );
+
     }
+    @Test
+    public void eye()
+    {
+
+        Matrix B=new Matrix(new double[][]{
+                {2, 0},
+                {0, 2},
+
+        });
+        assertArrayEquals(
+                new double[][]{{1,0},{0,1}},
+                B.eye(2).asArray()
+
+        );
+    }
+    @Test
+    public void test_dot() {
+        Matrix A = new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+        });
+        Matrix B = new Matrix(new double[][]{
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+        });
+        assertArrayEquals(
+                new double[][]{{3,3,3}, {3,3,3}, {3,3,3}},
+                A.dot(B).asArray()
+        );
+    }
+
+
 }
+
